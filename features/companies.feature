@@ -1,4 +1,4 @@
-Feature:
+Feature: computing real income and taxes
 
   Scenario: create company and sell something
     Given I created company called 'Flomedia.pl' with income tax rate 19
