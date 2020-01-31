@@ -12,12 +12,11 @@ class Company:
     vat_to_pay: float = without_init()
     income_tax_to_pay: float = without_init()
     income: float = without_init()
-    real_income: float = without_init()
 
-    def sell(self, value, vat_rate) -> 'Company':
-        self.income += value
-        self.vat_to_pay += round((value * vat_rate) / (100 + vat_rate), 2)
-        self.income_tax_to_pay += (self.income_tax_rate * (value - self.vat_to_pay)) / 100
+    def sell(self, product: Product) -> 'Company':
+        self.income += product.price
+        self.vat_to_pay += round((product.price * product.vat_rate) / (100 + product.vat_rate), 2)
+        self.income_tax_to_pay += (self.income_tax_rate * (product.price - product.vat_value)) / 100
         return self
 
     def buy(self, product: Product) -> 'Company':
@@ -27,7 +26,7 @@ class Company:
         return self
 
     def get_taxes(self):
-        return self.vat_to_pay, self.income_tax_to_pay
+        return round(self.vat_to_pay, 2), round(self.income_tax_to_pay, 2)
 
     def get_real_income(self):
-        return self.income - self.income_tax_to_pay - self.vat_to_pay
+        return round(self.income - self.income_tax_to_pay - self.vat_to_pay, 2)

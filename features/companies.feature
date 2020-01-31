@@ -1,22 +1,42 @@
 Feature:
 
-  Scenario Outline: create product
-    Given I created product called <name> with price <price> and VAT <vat_rate>
-    Then vat value will be <vat_value>
+  Scenario: create company and sell something
+    Given I created company called 'Flomedia.pl' with income tax rate 19
+    When I sell something for 12300 with vat at 23 rate
+    Then my real income will be 8100.00
 
-    Examples: Products with 23%
-      | name          | price | vat_rate | vat_value |
-      | Mobile        | 1230  | 23       | 230.00    |
-      | Computer      | 3600  | 23       | 673.17    |
-      | Notebook      | 7999  | 23       | 1495.75   |
+  Scenario: create company and sell/buy something
+    Given I created company called 'Flomedia.pl' with income tax rate 19
+    When I sell something for 12300 with vat at 23 rate
+    When I buy Mobile for 1500 with vat at 23 rate
+    Then my real income will be 8612.20
 
-    Examples: Products with 5%
-      | name             | price  | vat_rate | vat_value |
-      | How to be rich?  | 29.99  | 5        | 1.43      |
-      | Done Definitions | 59.99  | 5        | 2.86      |
-      | Motivation       | 75.99  | 5        | 3.62      |
+  Scenario: create company and sell: 1 item, buy: 2 items
+    Given I created company called 'Flomedia.pl' with income tax rate 19
+    When I sell something for 25000 with vat at 23 rate
+    When I buy Computer for 11500 with vat at 23 rate
+    When I buy Notebook for 2900 with vat at 23 rate
+    Then my real income will be 21380.49
 
-    Examples: Products with 8%
-      | name  | price  | vat_rate | vat_value |
-      | Bolt  | 24.89  | 8        | 1.84      |
-      | Uber  | 31.34  | 8        | 2.32      |
+  Scenario: create company and sell or buy a lot of stuff
+    Given I created company called 'Flomedia.pl' with income tax rate 19
+    When I sell services for 25000 with vat at 23 rate
+    When I buy Computer for 11500 with vat at 23 rate
+    When I buy Notebook for 2900 with vat at 23 rate
+    When I buy Book for 59.99 with vat at 5 rate
+    When I sell services for 5000 with vat at 23 rate
+    Then my real income will be 24686.89
+
+  Scenario: create company and sell or buy a lot of stuff and compute taxes
+    Given I created company called 'Flomedia.pl' with income tax rate 19
+    When I sell services for 25000 with vat at 23 rate
+    When I buy Computer for 11500 with vat at 23 rate
+    When I buy Notebook for 2900 with vat at 23 rate
+    When I buy Book for 59.99 with vat at 5 rate
+    When I sell services for 5000 with vat at 23 rate
+    Then my taxes will be vat: 2914.21 and income tax: 2398.90
+
+  Scenario: create company and buy something and have negative vat tax
+    Given I created company called 'Flomedia.pl' with income tax rate 19
+    When I buy Something for 300 with vat at 23 rate
+    Then my taxes will be vat: -56.10 and income tax: -46.34
