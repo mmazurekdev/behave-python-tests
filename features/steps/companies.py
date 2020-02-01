@@ -14,14 +14,11 @@ def step_impl(context, name, value, vat_rate):
 
 @then("my real income will be {income}")
 def step_impl(context, income):
-    print(context.company.get_taxes())
-    print(context.company.get_real_income())
     assert context.company.get_real_income() == float(income)
 
 
 @then("vat will be equal {vat_value} and income tax {income_tax_value}")
 def step_impl(context, vat_value, income_tax_value):
-    print(context.company.get_taxes())
     assert context.company.get_taxes() == (float(vat_value), float(income_tax_value))
 
 
