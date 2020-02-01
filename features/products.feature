@@ -1,8 +1,8 @@
-Feature: creating product
+Feature: calculating vat
 
   Scenario Outline: create product
-    Given I created product called <name> with price <price> and VAT <vat_rate>
-    Then vat value will be <vat_value>
+    Given I created product called <name> with the price <price> and VAT <vat_rate>
+    Then the vat value will be <vat_value>
 
     Examples: Products with 23%
       | name          | price | vat_rate | vat_value |
